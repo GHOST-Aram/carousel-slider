@@ -7,13 +7,32 @@
     <title>Carousel</title>
 </head>
 <style>
-    body{
-        /* display: grid; */
+    button{
+        padding-inline:2rem ;
+        padding-block: 1rem;
+        border: none;
+        background-color: rgba(0, 0, 0 , 0.6);
+        color: white;
+        border-radius: 4px;
+        position: absolute;
+        font-size: X-large;
+    }
+    button:hover{
+        background-color: #fff;
+        color: black;
+        transition: all .6s;
+    }
+    .btn-next{
+        right: 2rem;
+        top: 50%;
+    }
+    .btn-prev{
+        left : 2rem;
+        top: 50%;
     }
     img{
         margin: auto;
         width: 100%;
-        max-width: 800px;
         transition: all .5s;
         object-fit: cover;
     }
@@ -21,28 +40,84 @@
         height: 100vh;
         margin: auto;
         position: relative;
+        overflow: hidden;
+        
     }
     .slider div{
         margin: auto;
         position: absolute;
+        transition: all 2s;
         
+    }
+    p{
+        position: inherit;
+        bottom: 30%;
+        left: 10%;
+        color: white;
+        font-size: 4rem;
     }
 
 </style>
 <body>
     <div class="slider">
-        <div class="slide-1"><img src="https://images.unsplash.com/photo-1679653803330-f5f3d20589ed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80" alt=""></div>
-        <div class="slide-2"><img src="https://images.unsplash.com/photo-1680827237099-75f88f4264f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt=""></div>
-        <div class="slide-3"><img src="https://images.unsplash.com/photo-1618064541372-289bdb6f5b7b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1633&q=80" alt=""></div>
-        <div class="slide-4"><img src="https://images.unsplash.com/photo-1576877071774-0323d48de9cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80" alt=""></div>
-        <div class="slide-4"><img src="https://images.unsplash.com/photo-1604208032420-8595afeb49b7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1464&q=80" alt=""></div>
+        <div class="slide-1">
+            <img src="https://images.unsplash.com/photo-1679653803330-f5f3d20589ed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80" alt="">
+            <p>Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div class="slide-2">
+            <img src="https://images.unsplash.com/photo-1680827237099-75f88f4264f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="">
+            <p>Lorem ipsum dolor sit amet. Lorem, ipsum.</p>
+        </div>
+        <div class="slide-3">
+            <img src="https://images.unsplash.com/photo-1618064541372-289bdb6f5b7b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1633&q=80" alt="">
+            <p>Lorem ipsum dolor sit amet. Lorem, ipsum dolor.</p>
+        </div>
+        <div class="slide-4">
+            <img src="https://images.unsplash.com/photo-1576877071774-0323d48de9cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80" alt="">
+            <p>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit.</p>
+        </div>
+        <div class="slide-4">
+            <img src="https://images.unsplash.com/photo-1604208032420-8595afeb49b7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1464&q=80" alt="">
+            <p>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</p>
+        </div>
+        <button class="btn-prev">&#10096;</button><button class="btn-next">&#10097;</button>
     </div>
 </body>
 <script>
     const slides = document.querySelectorAll('.slider div')
 
+    let currentSlide = 0
+    let maxSlides = slides.length - 1
+
+    //Spread images horizontally
     slides.forEach((slide, index) =>{
         slide.style.transform = `translateX(${index * 100}%)`
+    })
+
+    //Next slide btn
+    document.querySelector('.btn-next').addEventListener('click', () =>{
+        //Track current slide
+        if(currentSlide === (slides.length - 1))
+            currentSlide = 0
+        else
+            currentSlide ++
+        //Slide leftwards
+        slides.forEach((slide, index) =>{
+            slide.style.transform = `translateX(${(index - currentSlide) * 100}%)`
+        })
+    })
+
+    //Going left
+    document.querySelector('.btn-prev').addEventListener('click', () =>{
+        //Track current slide
+        if(currentSlide === 0)
+            currentSlide = maxSlides
+        else
+            currentSlide --
+        //Slide leftwards
+        slides.forEach((slide, index) =>{
+            slide.style.transform = `translateX(${(index - currentSlide) * 100}%)`
+        })
     })
 </script>
 </html>
